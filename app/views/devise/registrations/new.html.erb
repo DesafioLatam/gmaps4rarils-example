@@ -11,6 +11,13 @@
       <%= f.email_field :email, class: 'form-control' %>
     </div>
     <div class="form-group">
+      <%= f.label :address %>
+      <%= f.text_field :address, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <a href="#" class="btn btn-primar" onclick="geolocate()"> Ubícame</a>
+    </div>
+    <div class="form-group">
       <%= f.label :password %>
       <%= f.password_field :password, class: 'form-control' %>
     </div>
@@ -21,3 +28,27 @@
      <%= f.submit 'Sign up', :class => 'button right' %>
   <% end %>
 </div>
+
+<script type="text/javascript">
+  function geolocate()
+  {
+    $.ajax
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position){
+
+        $.ajax({
+          url: "<%= address_users_path %>", 
+          type: 'GET',
+          dataType: 'script',
+          data: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          },
+        });        
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+
+    }
+  }
+</script>
